@@ -1,0 +1,7 @@
+{
+  "name": "Annoiler",
+  "description": "Makes you send messages with spoilers around every single character. Originally made by Kyza for Powercord: cum edition, Usage: !annoil <text here>",
+  "author": "vbajs, Kyza",
+  "file": "src/index.js",
+  "license": "BSD-3"
+}
