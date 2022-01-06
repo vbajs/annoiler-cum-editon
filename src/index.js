@@ -1,7 +1,3 @@
-const messageHandler = cumcord.modules.webpack.findByProps('sendMessage');
-
-let unpatch = [];
-
 function annoilText(input) {
     input = (input).split('').map((char) => {
         return `||${char}||`
@@ -9,23 +5,24 @@ function annoilText(input) {
     return input;
 };
 
-export default {
-    onLoad() {
-        unpatch.push(cumcord.patcher.after('sendMessage', messageHandler, (args) => {
-            if (args[1].content.startsWith('!annoil')) {
-                const message = args[1].content.replace('!annoil', '');
-                
-                const annoiledMessage = annoilText(message);
-
-                args[1].content = annoiledMessage;
-            };
-            return args;
-        }));
-    },
-
-    onUnload() {
-        for (const p in unpatch) {
-            p()
+const removeCommand = cumcord.commands.addCommand({
+    name: 'annoil',
+    description: 'Makes you send messages with spoilers around every single character.',
+    args: [
+        {
+            name: 'message',
+            description: 'Message goes here',
+            type: 'string',
+            required: true
         }
-    },
+    ],
+    handler: (ctx) => {
+        return annoilText(ctx.args.message)
+    }
+})
+
+export default {
+    onUnload() {
+        removeCommand()
+    }
 }
